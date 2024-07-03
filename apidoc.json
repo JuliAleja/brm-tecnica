@@ -1,0 +1,11 @@
+{
+  "name": "Prueba Tecnica BRM",
+  "version": "1.0.0",
+  "description": "REST Api para la gestion y compra de productos",
+  "title": "BRM COMPRA",
+  "url": "http://127.0.0.1:3333",
+  "sampleUrl": "http://api.example.com",
+  "template": {
+    "forceLanguage": "en"
+  }
+}
