@@ -7,7 +7,6 @@ const Compra = use("App/Models/Compra");
 class CompraService {
 
     async findByIdCliente(id) {
-        console.log(id);
         const compra = await Usuario.query()
             .where('id', id)
             .with('compras', (comprasQuery) => {
@@ -17,7 +16,6 @@ class CompraService {
             })
             .fetch();
         const comprasArray = compra.toJSON();
-        console.log("findByIdCliente", comprasArray);
         return comprasArray;
     }
     async create(idUsuario, fechaActual, metodoPago) {
@@ -33,7 +31,7 @@ class CompraService {
     async findByIdClienteIdCompra(idUsuario, idCompra) {
         const usuarioConCompra = await Compra.query()
             .where('id', idCompra).andWhere('id', idUsuario)
-            .with('usuarios').with('comprasproductos', (comprasProductosQuery) => {
+            .with('usuarios').with('compras', (comprasProductosQuery) => {
                 comprasProductosQuery.with('productos');
             })
             .fetch();

@@ -125,24 +125,26 @@ class CompraController {
     }
     async productosSales({ auth }) {
         const usuario = await auth.getUser();
-        console.log(usuario);
-        const comprasArray = await CompraService.findByIdCliente(1);
-        const responseProductos = comprasArray.map(usuario => {
-            usuario.compras.map(compra => {
-                compra.comprasproductos.map(cp => {
-                    return {
-                        idProducto: cp.productos.id,
-                        nombreProducto: cp.productos.nombre,
-                        precioProducto: cp.productos.precio,
-                        cantidadDisponible: cp.productos.cantidad_disponible,
-                        cantidadComprada: cp.cantidad,
-                        total: cp.total
-                    };
-                });
-            })
-
+        const productosArray = await ProductoService.findByIdUsuario(usuario.id);
+        const productosResponse = [];
+        productosArray.forEach(element => {
+            let cantidadComprada = 0;
+            let totalCompra = 0;
+            element.comprasproductos.map(cp => {
+                cantidadComprada += cp.cantidad
+                totalCompra += cp.total
+            });
+            const producto = {
+                idProducto: element.id,
+                nombreProducto: element.nombre,
+                precioProducto: element.precio,
+                cantidadDisponible: element.cantidad,
+                cantidadComprada: cantidadComprada,
+                totalCompra: totalCompra,
+            }
+            productosResponse.push(producto);
         });
-        return responseProductos;
+        return productosResponse;
     }
 
 

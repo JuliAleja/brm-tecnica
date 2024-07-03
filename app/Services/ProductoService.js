@@ -60,6 +60,17 @@ class ProductoService {
             throw error;
         }
     }
+    async findByIdUsuario(idUsuario) {
+        const producto = await Producto.query()
+            .with('comprasproductos', (comprasProductosQuery) => {
+                comprasProductosQuery.with('compras', (comprasQuery) => {
+                    comprasQuery.where('id_usuario', idUsuario)
+                })
+            })
+            .fetch();
+        const productoArray = producto.toJSON();
+        return productoArray;
+    }
 }
 
 module.exports = new ProductoService();
