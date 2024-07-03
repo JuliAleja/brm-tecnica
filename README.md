@@ -31,8 +31,9 @@ Este proyecto consiste en el desarrollo de una API REST para la gestión y compr
 - _NPM_: Versión 3 o superior.
 - _AdonisJS CLI_: Instalado globalmente.
   - Se puede instalar usando npm:
-    bash
+    ```bash
     npm i -g @adonisjs/cli
+    ```
 - _MySQL (MariaDB)_: Versión 10.5 o superior.
   - Puedes descargarlo desde [MariaDB Official Site](https://mariadb.org/download/).
 
