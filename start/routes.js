@@ -31,6 +31,7 @@ Route.group(() => {
 
 Route.group(() => {
   Route.post('/', 'CompraController.sale');
+  Route.get('factura/:id', 'CompraController.invoice');
+  Route.get('productos', 'CompraController.productosSales');
   Route.get('clientes/:idCliente', 'CompraController.findByIdCliente');
-
 }).prefix('compras')

@@ -1,59 +1,45 @@
 'use strict'
 
-const Producto = use("App/Models/Producto");
+const ProductoService = use("App/Services/ProductoService");
+const UsuarioService = use("App/Services/UsuarioService");
 
 class ProductoController {
 
     async create({ auth, request }) {
-        await auth.getUser();
-        const { nLote, nombre, precio, cantidadDisponible, fechaIngreso } = request.all();
-        const producto = new Producto();
-        producto.fill({
-            n_lote: nLote,
-            nombre: nombre,
-            precio: precio,
-            cantidad_disponible: cantidadDisponible,
-            fecha_ingreso: fechaIngreso
-        });
-        await producto.save(producto);
-        return producto;
+        const usuario = await auth.getUser();
+        await UsuarioService.validAdmin(usuario);
+        const productoCreate = await ProductoService.create(request)
+        return productoCreate;
     }
 
     async all({ auth }) {
-        await auth.getUser();
-        const productos = await Producto.all();
+        const usuario = await auth.getUser();
+        await UsuarioService.validAdmin(usuario);
+        const productos = await ProductoService.all();
         return productos;
     }
 
     async findById({ params, auth }) {
-        await auth.getUser();
+        const usuario = await auth.getUser();
+        await UsuarioService.validAdmin(usuario);
         const { id } = params;
-        const producto = await Producto.find(id);
+        const producto = await ProductoService.findById(id);
         return producto;
     }
     async update({ params, request, auth }) {
-        await auth.getUser();
+        const usuario = await auth.getUser();
+        await UsuarioService.validAdmin(usuario);
         const { id } = params;
-        const { nLote, nombre, precio, cantidadDisponible, fechaIngreso } = request.all();
-        const producto = await Producto.find(id);
-
-        producto.fill({
-            n_lote: nLote,
-            nombre: nombre,
-            precio: precio,
-            cantidad_disponible: cantidadDisponible,
-            fecha_ingreso: fechaIngreso
-        });
-        await producto.save(producto);
-        return producto;
+        const productoUpdate = await ProductoService.update(request, id);
+        return productoUpdate;
     }
 
     async destroy({ params, auth }) {
-        await auth.getUser();
+        const usuario = await auth.getUser();
+        await UsuarioService.validAdmin(usuario);
         const { id } = params;
-        const producto = await Producto.find(id);
-        const aux = await producto.delete();
-        return aux;
+        const productoDelete = await ProductoService.destroy(id);
+        return productoDelete;
     }
 
 

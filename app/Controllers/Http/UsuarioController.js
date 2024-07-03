@@ -1,5 +1,5 @@
 "use strict";
-const Usuario = use("App/Models/Usuario");
+const UsuarioService = use("App/Services/UsuarioService");
 
 class UsuarioController {
     /**
@@ -28,17 +28,8 @@ class UsuarioController {
      *     }
      */
     async create({ request }) {
-        const { nombre, apellido, genero, email, password, rol } = request.all();
-        const usuario = await Usuario.create({
-            nombre,
-            apellido,
-            genero,
-            email,
-            password,
-            rol,
-        });
-
-        return usuario;
+        const usuarioCreate = await UsuarioService.create(request);
+        return usuarioCreate;
     }
 
     /**
