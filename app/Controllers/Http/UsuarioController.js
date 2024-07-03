@@ -20,16 +20,30 @@ class UsuarioController {
      * @apiSuccess   {String} email Email del usuario.
      * @apiSuccess   {String} password Contraseña del usuario.
      * @apiSuccess   {integer} rol Rol del usuario ( 1 ->Adminitrador, 2->Cliente).
-     *
+     * 
+     *  @apiSuccessExample {json} Success-Response:
+     *     HTTP/1.1 201 OK
+     *       {
+     *           "nombre": "alejandra",
+     *           "apellido": "sierra",
+     *           "genero": "f",
+     *           "email": "alejadra@gmail.com",
+     *           "password": "$2a$10$juGhTVuTtfPAS0GLTdPEKOSnYmUlC61YZzXr6LTHieZyye8CDNX8S",
+     *           "rol": 2,
+     *           "created_at": "2024-07-03 08:48:10",
+     *           "updated_at": "2024-07-03 08:48:10",
+     *           "id": 2
+     *       }
+     * 
      * @apiErrorExample {json} Error en la creación:
      *     HTTP/1.1 500 Internal Server Error
      *     {
      *       "error": "Mensaje de error detallado"
      *     }
      */
-    async create({ request }) {
+    async create({ request, response }) {
         const usuarioCreate = await UsuarioService.create(request);
-        return usuarioCreate;
+        return response.status(200).send(usuarioCreate)
     }
 
     /**
@@ -43,6 +57,14 @@ class UsuarioController {
       *
       * @apiSuccess {String} token Token de autenticación para el usuario.
       *
+      * @apiSuccessExample {json} Success-Response:
+      *     HTTP/1.1 202 OK
+      *      {
+      *      "type": "bearer",
+      *      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTcyMDAwOTQ3Nn0.rke-Lpa6UsBLHtGh45gIwYUHIDFncGqQqE6bi_B70DU",
+      *      "refreshToken": null
+      *      }
+      * 
       * @apiErrorExample {json} Error en la autenticación:
       *     HTTP/1.1 401 Unauthorized
       *     {
@@ -50,10 +72,10 @@ class UsuarioController {
       *     }      
       */
 
-    async login({ request, auth }) {
+    async login({ request, auth, response }) {
         const { email, password } = request.all();
         const token = await auth.attempt(email, password);
-        return token;
+        return response.status(202).send(token)
     }
 }
 

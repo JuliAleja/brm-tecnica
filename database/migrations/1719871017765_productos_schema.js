@@ -11,6 +11,7 @@ class ProductosSchema extends Schema {
       table.string('nombre', 25)
       table.integer('precio')
       table.integer('cantidad_disponible')
+      table.string('estado')
       table.date('fecha_ingreso')
       table.timestamps()
     })

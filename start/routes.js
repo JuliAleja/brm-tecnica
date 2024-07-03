@@ -16,6 +16,7 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
+
 Route.group(() => {
   Route.post('crear', 'UsuarioController.create');
   Route.post('login', 'UsuarioController.login');
@@ -26,6 +27,7 @@ Route.group(() => {
   Route.get('/', 'ProductoController.all');
   Route.get(':id', 'ProductoController.findById');
   Route.put(':id', 'ProductoController.update');
+  Route.patch(':id', 'ProductoController.status');
   Route.delete(':id', 'ProductoController.destroy');
 }).prefix('productos')
 
@@ -35,3 +37,5 @@ Route.group(() => {
   Route.get('productos', 'CompraController.productosSales');
   Route.get('clientes/:idCliente', 'CompraController.findByIdCliente');
 }).prefix('compras')
+
+

@@ -2,6 +2,7 @@
 
 const Usuario = use("App/Models/Usuario");
 const Compra = use("App/Models/Compra");
+const NotFoundException = use('App/Exceptions/NotFoundException')
 
 
 class CompraService {
@@ -16,6 +17,9 @@ class CompraService {
             })
             .fetch();
         const comprasArray = compra.toJSON();
+        if (comprasArray.length == 0) {
+            throw new NotFoundException();
+        }
         return comprasArray;
     }
     async create(idUsuario, fechaActual, metodoPago) {
@@ -30,15 +34,18 @@ class CompraService {
     }
     async findByIdClienteIdCompra(idUsuario, idCompra) {
         const usuarioConCompra = await Compra.query()
-            .where('id', idCompra).andWhere('id', idUsuario)
-            .with('usuarios').with('compras', (comprasProductosQuery) => {
+            .where('id', idCompra).andWhere('id_usuario', idUsuario)
+            .with('usuarios').with('comprasproductos', (comprasProductosQuery) => {
                 comprasProductosQuery.with('productos');
             })
             .fetch();
         const comprasArray = usuarioConCompra.toJSON();
+        if (comprasArray.length == 0) {
+            throw new NotFoundException();
+        }
         return comprasArray;
     }
-
+    Ñ
 }
 
 module.exports = new CompraService();

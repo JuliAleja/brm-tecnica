@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node ace test"
+    "test": "node ace test",
+    "apidoc": "apidoc -i app/Controllers/Http/ -o public/apidoc"
   },
   "keywords": [
     "adonisjs",
@@ -28,5 +29,8 @@
   },
   "autoload": {
     "App": "./app"
+  },
+  "devDependencies": {
+    "grunt-apidoc": "^0.11.0"
   }
 }

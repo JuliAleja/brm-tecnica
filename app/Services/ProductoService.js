@@ -2,57 +2,82 @@
 
 const Producto = use('App/Models/Producto');
 const StockProductoException = use('App/Exceptions/StockProductoException')
+const NotFoundException = use('App/Exceptions/NotFoundException')
 
 class ProductoService {
 
-    async create(request) {
-        const { nLote, nombre, precio, cantidadDisponible, fechaIngreso } = request.all();
+    async create(request, fechaIngreso) {
+        const { nLote, nombre, precio, cantidadDisponible } = request.all();
         const productoCreate = Producto.create({
             n_lote: nLote,
             nombre: nombre,
             precio: precio,
             cantidad_disponible: cantidadDisponible,
+            estado: "ACTIVO",
             fecha_ingreso: fechaIngreso
         });
         return productoCreate;
     }
     async all() {
         const productos = await Producto.all();
+        if (productos.length == 0) {
+            throw new NotFoundException();
+        }
         return productos;
     }
 
     async findById(idProducto) {
         const producto = await Producto.find(idProducto);
+        if (!producto) {
+            throw new NotFoundException();
+        }
         return producto;
     }
 
     async update(request, id) {
         const { nLote, nombre, precio, cantidadDisponible, fechaIngreso } = request.all();
         const producto = await this.findById(id);
+        if (!producto) {
+            throw new NotFoundException();
+        }
         producto.fill({
-            n_lote: nLote,
-            nombre: nombre,
-            precio: precio,
-            cantidad_disponible: cantidadDisponible,
-            fecha_ingreso: fechaIngreso
+            id: producto.id,
+            n_lote: nLote == undefined ? producto.n_lote : nLote,
+            nombre: nombre == undefined ? producto.nombre : nombre,
+            precio: precio == undefined ? producto.precio : precio,
+            cantidad_disponible: cantidadDisponible == undefined ? producto.cantidad_disponible : cantidadDisponible,
+            fecha_ingreso: fechaIngreso == undefined ? producto.fecha_ingreso : fechaIngreso
         });
-        const productoUpdate = await producto.save();
-        return productoUpdate;
+        await producto.save();
+        return producto;
     }
     async updateStock(cantidad, id) {
         const producto = await this.findById(id);
+        if (!producto) {
+            throw new NotFoundException();
+        }
         producto.cantidad_disponible = producto.cantidad_disponible - cantidad;
         const productoUpdate = await producto.save();
         return productoUpdate;
     }
 
-    async destroy(id) {
+    async status(id) {
         const producto = await Producto.find(id);
-        const aux = await producto.delete();
-        return aux;
+        if (!producto) {
+            throw new NotFoundException();
+        }
+        producto.fill({
+            id: producto.id,
+            estado: producto.estado == "ACTIVO" ? "INACTIVO" : "ACTIVO",
+        });
+        await producto.save();
+        return producto;
     }
     async verificarStock(idProducto, cantidadSolicitada) {
         const producto = await this.findById(idProducto);
+        if (!producto) {
+            throw new NotFoundException();
+        }
         if (producto.cantidad_disponible < cantidadSolicitada) {
             const error = new StockProductoException();
             error.producto = producto;
@@ -69,7 +94,18 @@ class ProductoService {
             })
             .fetch();
         const productoArray = producto.toJSON();
+        if (productoArray.length == 0) {
+            throw new NotFoundException();
+        }
         return productoArray;
+    }
+    async destroy(id) {
+        const producto = await Producto.find(id);
+        if (!producto) {
+            throw new NotFoundException();
+        }
+        await producto.delete();
+        return producto;
     }
 }
 
