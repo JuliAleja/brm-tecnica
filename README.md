@@ -109,3 +109,17 @@ adonis serve --dev
 ```
 
 - **El servidor debería estar corriendo en http://127.0.0.1:3333**.
+
+### 6. Ejecucion de ApiDocs
+
+Para acceder a la documentación del proyecto:
+
+- **Aqui se ecuentra la documentacion del proyecto**
+  ![alt text](image-4.png)
+
+* **Dale clic derecho y selecciona "Mostar en el explorador de archivos"**
+  ![alt text](image-5.png)
+* **Abre el archivo index.html**
+  ![alt text](image-6.png)
+
+* **Esto te llevará a la interfaz de ApiDocs donde podrás explorar la documentación detallada del proyecto.**
