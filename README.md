@@ -115,10 +115,13 @@ adonis serve --dev
 Para acceder a la documentación del proyecto:
 
 - **Aqui se ecuentra la documentacion del proyecto**
+
   ![alt text](image-4.png)
 
 * **Dale clic derecho y selecciona "Mostar en el explorador de archivos"**
+
   ![alt text](image-5.png)
+
 * **Abre el archivo index.html**
   ![alt text](image-6.png)
 
