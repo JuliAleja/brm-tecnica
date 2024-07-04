@@ -123,6 +123,7 @@ Para acceder a la documentación del proyecto:
   ![alt text](image-5.png)
 
 * **Abre el archivo index.html**
+
   ![alt text](image-6.png)
 
 * **Esto te llevará a la interfaz de ApiDocs donde podrás explorar la documentación detallada del proyecto.**
