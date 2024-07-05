@@ -7,9 +7,9 @@ const NotFoundException = use('App/Exceptions/NotFoundException')
 class ProductoService {
 
     async create(request, fechaIngreso) {
-        const { nLote, nombre, precio, cantidadDisponible } = request.all();
+        const { numeroLote, nombre, precio, cantidadDisponible } = request.all();
         const productoCreate = Producto.create({
-            n_lote: nLote,
+            n_lote: numeroLote,
             nombre: nombre,
             precio: precio,
             cantidad_disponible: cantidadDisponible,
@@ -35,14 +35,14 @@ class ProductoService {
     }
 
     async update(request, id) {
-        const { nLote, nombre, precio, cantidadDisponible, fechaIngreso } = request.all();
+        const { numeroLote, nombre, precio, cantidadDisponible, fechaIngreso } = request.all();
         const producto = await this.findById(id);
         if (!producto) {
             throw new NotFoundException();
         }
         producto.fill({
             id: producto.id,
-            n_lote: nLote == undefined ? producto.n_lote : nLote,
+            n_lote: numeroLote == undefined ? producto.n_lote : numeroLote,
             nombre: nombre == undefined ? producto.nombre : nombre,
             precio: precio == undefined ? producto.precio : precio,
             cantidad_disponible: cantidadDisponible == undefined ? producto.cantidad_disponible : cantidadDisponible,

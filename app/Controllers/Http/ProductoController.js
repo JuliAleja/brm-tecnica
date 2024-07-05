@@ -173,7 +173,7 @@ class ProductoController {
         *       "error": "Mensaje de error detallado"
         *     }
         */
-    async findById({ params, auth }) {
+    async findById({ params, auth, response }) {
         const usuario = await auth.getUser();
         await UsuarioService.validAdmin(usuario);
         const { id } = params;
@@ -241,7 +241,7 @@ class ProductoController {
          *     }
          */
 
-    async update({ params, request, auth }) {
+    async update({ params, request, auth, response }) {
         const usuario = await auth.getUser();
         await UsuarioService.validAdmin(usuario);
         const { id } = params;
@@ -303,7 +303,7 @@ class ProductoController {
          *     }
          */
 
-    async status({ params, auth }) {
+    async status({ params, auth, response }) {
         const usuario = await auth.getUser();
         await UsuarioService.validAdmin(usuario);
         const { id } = params;
@@ -369,7 +369,7 @@ class ProductoController {
          *     }
          */
 
-    async destroy({ params, auth }) {
+    async destroy({ params, auth, response }) {
         const usuario = await auth.getUser();
         await UsuarioService.validAdmin(usuario);
         const { id } = params;
